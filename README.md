@@ -34,17 +34,18 @@ python app.py
 👉 http://127.0.0.1:5000/
 ```
 
-
+```
 🧠 Example Input / Output
 Area	Bedrooms	Age	Predicted Price
 2400	3	20	₹7,20,000
 3500	4	15	₹8,50,000
 1800	2	30	₹6,00,000
-
+```
 
 ---
 
 ## 🧩 Project Files
+```
 House-Price-Prediction-KNN/
 │
 ├── app.py                 # Flask API backend
@@ -52,7 +53,7 @@ House-Price-Prediction-KNN/
 ├── model.pkl              # Saved trained model
 ├── templates/             # HTML files (optional frontend)
 └── README.md              # Project description
-
+```
 ---
 
 ## 🏗️ Future Improvements
