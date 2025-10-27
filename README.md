@@ -42,7 +42,9 @@ Area	Bedrooms	Age	Predicted Price
 1800	2	30	₹6,00,000
 
 
-🧩 Project Files
+---
+
+## 🧩 Project Files
 House-Price-Prediction-KNN/
 │
 ├── app.py                 # Flask API backend
@@ -51,8 +53,9 @@ House-Price-Prediction-KNN/
 ├── templates/             # HTML files (optional frontend)
 └── README.md              # Project description
 
+---
 
-🏗️ Future Improvements
+## 🏗️ Future Improvements
 
 Add more features like location or furnishing
 
@@ -61,9 +64,9 @@ Create a modern UI with React
 Try other models like Linear Regression or Random Forest
 
 
+---
 
 
-
-📜 License
+## 📜 License
 
 This project uses the MIT License.
