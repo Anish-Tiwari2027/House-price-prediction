@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>House Price Prediction</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                  url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 100%;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .input-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #34495e;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      height: 6px;
+      border-radius: 5px;
+      background: #dfe6e9;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3498db;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: #2980b9;
+      transform: scale(1.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3498db;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      background: #2980b9;
+      transform: scale(1.2);
+    }
+
+    .value-display {
+      min-width: 70px;
+      text-align: center;
+      font-weight: 700;
+      color: #2c3e50;
+      background: #ecf0f1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      background: linear-gradient(135deg, #27ae60, #229954);
+      color: white;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    #result.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .icon {
+      font-size: 24px;
+      margin-right: 5px;
+    }
+
+    .error {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 25px;
+      }
+      
+      h2 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2><span class="icon">🏠</span>House Price Predictor</h2>
+    <p class="subtitle">Estimate your property value instantly</p>
+
+    <div class="input-group">
+      <label for="area">Area (sq ft)</label>
+      <div class="slider-container">
+        <input type="range" id="area" min="500" max="5000" value="1500" step="50">
+        <span class="value-display" id="areaValue">1500</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="bedrooms">Number of Bedrooms</label>
+      <div class="slider-container">
+        <input type="range" id="bedrooms" min="1" max="6" value="3" step="1">
+        <span class="value-display" id="bedroomsValue">3</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="age">Age of House (years)</label>
+      <div class="slider-container">
+        <input type="range" id="age" min="0" max="50" value="10" step="1">
+        <span class="value-display" id="ageValue">10</span>
+      </div>
+    </div>
+
+    <button onclick="predict()">Predict Price</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Update slider values in real-time
+    const areaSlider = document.getElementById('area');
+    const bedroomsSlider = document.getElementById('bedrooms');
+    const ageSlider = document.getElementById('age');
+
+    areaSlider.addEventListener('input', function() {
+      document.getElementById('areaValue').textContent = this.value;
+    });
+
+    bedroomsSlider.addEventListener('input', function() {
+      document.getElementById('bedroomsValue').textContent = this.value;
+    });
+
+    ageSlider.addEventListener('input', function() {
+      document.getElementById('ageValue').textContent = this.value;
+    });
+
+    async function predict() {
+      const resultDiv = document.getElementById('result');
+      resultDiv.classList.remove('show', 'error');
+      
+      const data = {
+        Area: parseFloat(areaSlider.value),
+        Bedrooms: parseInt(bedroomsSlider.value),
+        Age: parseInt(ageSlider.value)
+      };
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        resultDiv.innerHTML = "💰 Predicted Price: ₹" + result["Predicted_Price (lakhs)"] + " lakhs";
+        resultDiv.classList.remove('error');
+        resultDiv.classList.add('show');
+      } catch (error) {
+        resultDiv.innerHTML = "⚠️ Error: Unable to fetch prediction. Please check if the server is running.";
+        resultDiv.classList.add('error', 'show');
+      }
+    }
+  </script>
+</body>
+</html>
